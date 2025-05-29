@@ -1,0 +1,28 @@
+---
+interface Props {
+    type: "antarctica" | "greenland";
+}
+
+const id = crypto.randomUUID();
+const { type } = Astro.props;
+---
+
+<div id={id}></div>
+
+<script>
+    import { setupAntarctica, setupGreenland } from "../lib/charts.ts";
+
+    const setupChart = async (type: "antarctica" | "greenland", id: string) => {
+        if (type == "antarctica") {
+            await setupAntarctica(id);
+        } else if (type == "greenland") {
+            await setupGreenland(id);
+        }
+    };
+
+    (window as any).setupChart = setupChart;
+</script>
+
+<script is:inline define:vars={{ type, id }}>
+    setupChart(type, id);
+</script>
